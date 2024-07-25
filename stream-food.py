@@ -35,11 +35,9 @@ if st.button('Prediksi'):
 
         # Menentukan kategori harga berdasarkan prediksi
         if Satisfaction[0] == 1:
-            Kepuasan = 'low'
-        elif Satisfaction[0] == 2:
-            Kepuasan = 'medium'
-        else:
-            Kepuasan = 'high'
+            Kepuasan = 'Yes'
+        else Satisfaction[0] == 2:
+            Kepuasan = 'No'
         
         st.success(Kepuasan)
 
