@@ -31,15 +31,17 @@ if st.button('Prediksi'):
         Marital_Status = st.text_input('Marital Status', '0')
 
         # Melakukan prediksi
-        Satisfaction = resto_model.predict([[Age, Feedback, Monthly_Income, Marital_Status]])
+        price_prediction = food_model.predict([[Age, Feedback, Monthly_Income, Marital_Status]])
 
         # Menentukan kategori harga berdasarkan prediksi
-        if Satisfaction[0] == 1:
-            Kepuasan = 'Yes'
-        else Satisfaction[0] == 2:
-            Kepuasan = 'No'
+        if price_prediction[0] == 1:
+            harga_menu = 'low'
+        elif price_prediction[0] == 2:
+            harga_menu = 'medium'
+        else:
+            harga_menu = 'high'
         
-        st.success(Kepuasan)
+        st.success(harga_menu)
 
     except ValueError:
         st.error("Pastikan semua input diisi dengan angka yang valid.")
