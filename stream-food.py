@@ -1,17 +1,29 @@
-import pickle
 import streamlit as st
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
 
-# Membaca model
-try:
-    with open('food_model.sav', 'rb') as file:
-        food_model = pickle.load(file)
-except FileNotFoundError:
-    st.error("File model tidak ditemukan. Pastikan file berada di jalur yang benar.")
-except Exception as e:
-    st.error(f"Error saat memuat model: {e}")
+#Data
+food = pd.read_csv('onlinefoods.csv')
 
-# Judul web
-st.title('Prediksi Kepuasan Pelanggan')
+# Remove unnecessary columns
+food_cleaned = food.drop(columns=['Unnamed: 12'])
+
+# Define features and target variable
+X = food_encoded.drop(columns=['Output_No', 'Output_Yes'])
+y = food_encoded['Output_Yes']
+
+# Inisialisasi model Random Forest
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+
+# Latih model
+model.fit(X_train, y_train)
+
 
 # Input data
 Age = st.text_input('Age', key="A1")
