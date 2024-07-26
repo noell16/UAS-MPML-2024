@@ -13,11 +13,11 @@ except Exception as e:
 # Judul web
 st.title('Prediksi Kepuasan Pelanggan')
 
-# Input data dengan contoh angka valid untuk pengujian
-Age = st.text_input('Age', '1')
-Feedback = st.text_input('Feedback', '0')
-Monthly_Income = st.text_input('Monthly Income', '1')
-Marital_Status = st.text_input('Marital Status', '0')
+# Input data
+Age = st.text_input('Age', key="A1")
+Feedback = st.text_input('Feedback', key="A2")
+Monthly_Income = st.text_input('Monthly Income', key="A3")
+Marital_Status = st.text_input('Marital Status', key="A4")
 
 Kepuasan = ''
 
@@ -25,26 +25,28 @@ Kepuasan = ''
 if st.button('Prediksi'):
     try:
         # Convert input to appropriate data types
-        Age = st.text_input('Age', '1')
-        Feedback = st.text_input('Feedback', '0')
-        Monthly_Income = st.text_input('Monthly Income', '1')
-        Marital_Status = st.text_input('Marital Status', '0')
+        age = float(Age) if Age else None
+        feedback = Feedback
+        monthly_income = float(Monthly_Income) if Monthly_Income else None
+        marital_status = Marital_Status
 
-        # Melakukan prediksi
-        price_prediction = food_model.predict([[Age, Feedback, Monthly_Income, Marital_Status]])
-
-        # Menentukan kategori harga berdasarkan prediksi
-        if price_prediction[0] == 1:
-            harga_menu = 'low'
-        elif price_prediction[0] == 2:
-            harga_menu = 'medium'
+        if age is None or monthly_income is None:
+            st.error("Pastikan semua input diisi dengan angka yang valid.")
         else:
-            harga_menu = 'high'
-        
-        st.success(harga_menu)
+            # Melakukan prediksi
+            Satisfaction = food_model.predict([[age, feedback, monthly_income, marital_status]])
+
+            # Menentukan kategori harga berdasarkan prediksi
+            if Satisfaction[0] == 1:
+                Kepuasan = 'Yes'
+            elif Satisfaction[0] == 2:
+                Kepuasan = 'No'
+            else:
+                Kepuasan = 'NotFound'
+            
+            st.success(Kepuasan)
 
     except ValueError:
         st.error("Pastikan semua input diisi dengan angka yang valid.")
     except Exception as e:
         st.error(f"Terjadi kesalahan: {e}")
-    
